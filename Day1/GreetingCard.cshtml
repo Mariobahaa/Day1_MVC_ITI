@@ -1,0 +1,116 @@
+﻿@{Layout = null;}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Greeting Card</title>
+</head>
+<body>
+    <div>
+        <div style=" background-color: peachpuff; width: 50%; padding:1%; display:inline-block">
+            <form action="#" method="post">
+                <h4>Choose Background Image</h4>
+                <select name="bg">
+
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                </select>
+
+                <br />
+                <br />
+
+                <h4>Choose Text Color</h4>
+                <select name="txt">
+
+                    <option>purple</option>
+                    <option>white</option>
+                    <option>red</option>
+                    <option>yellow</option>
+                    <option>blue</option>
+                    <option>black</option>
+                    <option>orange</option>
+                    <option>green</option>
+                    <option>pink</option>
+                    <option>gray</option>
+                    <option>hotpink</option>
+                    <option>darkcyan</option>
+                </select>
+                <br />
+                <br />
+
+                <h4>Greeting Type:</h4>
+                <input type="radio" name="type" value="Birthday" id="bday" /> <label for="bday">Birthday</label>  <br />
+                <input type="radio" name="type" value="GetWellSoon" id="gws" />  <label for="gws">Get Well Soon</label> <br>
+                <input type="radio" name="type" value="Valentine" id="val" />  <label for="val">Valentine</label> <br>
+                <input type="radio" name="type" value="Congrats" id="cgrts" /> <label for="cgrts">Congrats</label> <br>
+
+                <br /><br /><br />
+
+                <input type="checkbox" name="pic" id="pic" /> <label for="pic">Add Picture</label>
+                <br /><br />
+
+                <h4>Add a Greeting Message </h4>
+                <input type="text" name="msg" />
+                <br /><br /><br /><br />
+                <button type="submit">Preview</button>
+            </form>
+
+        </div>
+        @{
+            string bg = "";
+            bool picon = false;
+            string type = "";
+            string color = "white";
+            string msg = "error";
+            string Greeting = "";
+            string pic = "Assets/bd.jpg";
+        }
+        @{
+            if (IsPost)
+            {
+                bg = "Assets/" + @Request.Form["bg"].ToString() + ".jpg";
+                picon = (@Request.Form["pic"]?.ToString() == "on");
+                type = @Request.Form["type"];
+                color = @Request.Form["txt"];
+                msg = @Request.Form["msg"];
+
+
+            }
+        }
+        @{
+            if (type == "Birthday") { Greeting = "Happy Birthday!!!"; pic = "Assets/bd.jpg"; }
+            else if (type == "GetWellSoon") { Greeting = "Get Well Soon :("; pic = "Assets/well.gif"; }
+            else if (type == "Valentine") { Greeting = "Happy Valentine <3"; pic = "Assets/val.bmp"; }
+            else if (type == "Congrats") { Greeting = "Congratulations 2U"; pic = "Assets/congrats.gif"; }
+
+        }
+        @{
+            if (IsPost)
+            {
+                <div style=" background-image:url(@bg); width: 30%; padding:1%; position:absolute; left:55%; top:1%; text-align:center;">
+                    <h3 style= "color:@color">@Greeting</h3>
+                    @{ if (picon)
+                        {
+                            <img src=@pic style="width:20%; height:20%;" />
+                        }
+                    }
+                    <h3 style= "color:@color">@msg</h3>
+                </div>
+
+            }
+        }
+
+    </div>
+
+</body>
+</html>
+

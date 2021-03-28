@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    @{
+        List<Day1.Student> students = new List<Day1.Student>();
+        students.Add(new Day1.Student(1, "Mario", 22));
+        students.Add(new Day1.Student(2, "Kiro", 23));
+        students.Add(new Day1.Student(3, "Marina", 21));
+        students.Add(new Day1.Student(4, "Huda", 23));
+
+    
+
+    }
+
+    @{
+        var myChart = new Chart(width: 600, height: 400)
+          .AddTitle("Students'Ages")
+          .AddSeries(chartType: "bar",
+            xValue: students.Select(S => S.Name).ToArray(),
+            yValues: students.Select(S => S.Age).ToArray()).Write();
+
+    }
+
+
+</head>
+<body>
+
+
+</body>
+</html>

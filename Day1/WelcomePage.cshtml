@@ -1,0 +1,167 @@
+﻿@{Layout = null;}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome Page</title>
+
+</head>
+<body>
+
+
+    <form action="#" method="get">
+        <label for="name">Name </label><input type="text" name="name" />
+        <br /> <br />
+        <label for="year">Birth date:</label>
+        <select name="year" onchange="loadMonths()">
+            <option hidden>Year</option>
+            <option>2000</option>
+            <option>2001</option>
+            <option>2002</option>
+            <option>2003</option>
+            <option>2004</option>
+            <option>2005</option>
+            <option>2006</option>
+            <option>2007</option>
+            <option>2008</option>
+            <option>2009</option>
+            <option>2010</option>
+            <option>2011</option>
+            <option>2012</option>
+            <option>2013</option>
+            <option>2014</option>
+            <option>2015</option>
+            <option>2016</option>
+
+        </select>
+
+        <select name="month" id="month" disabled="true" onchange="loadDays()">
+            <option hidden>month</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+
+        </select>
+        <select name="day" id="day" disabled="true" onchange="EnableSubmit()">
+            <option hidden>Day</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+            <option>13</option>
+            <option>14</option>
+            <option>15</option>
+            <option>16</option>
+            <option>17</option>
+            <option>18</option>
+            <option>19</option>
+            <option>20</option>
+            <option>21</option>
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+            <option>26</option>
+            <option>27</option>
+            <option>28</option>
+            <option>29</option>
+            <option>30</option>
+            <option>31</option>
+
+        </select>
+        <br /> <br />
+
+        <button type="submit" disabled id="sub" ">Submit</button>
+        <br /> <br />
+    </form>
+
+    <script>
+        let hideMonths = false;
+        function loadMonths() {
+            document.querySelector("#month").disabled = false;
+
+        }
+        function loadDays() {
+            document.querySelector("#day").disabled = false;
+
+        }
+        function EnableSubmit() {
+            document.querySelector("#sub").disabled = false;
+
+        }
+    </script>
+
+    @{
+        string ToAgeString(DateTime dob)
+        {
+            DateTime today = DateTime.Today;
+
+            int months = today.Month - dob.Month;
+            int years = today.Year - dob.Year;
+
+            if (today.Day < dob.Day)
+            {
+                months--;
+            }
+
+            if (months < 0)
+            {
+                years--;
+                months += 12;
+            }
+
+            int days = (today - dob.AddMonths((years * 12) + months)).Days;
+
+            return string.Format("{0} year{1}, {2} month{3} and {4} day{5}",
+                                 years, (years == 1) ? "" : "s",
+                                 months, (months == 1) ? "" : "s",
+                                 days, (days == 1) ? "" : "s");
+        }
+    }
+
+    @{
+
+        if (!Request.QueryString["name"].IsEmpty() &&
+       !Request.QueryString["year"].IsEmpty() &&
+       !Request.QueryString["month"].IsEmpty() &&
+       !Request.QueryString["day"].IsEmpty())
+        {
+            var name = @Request.QueryString["name"];
+            int o;
+            int.TryParse(Request.QueryString["year"], out o);
+            int year = o;
+            int.TryParse(Request.QueryString["month"], out o);
+            int month = o;
+            int.TryParse(Request.QueryString["day"], out o);
+            int day = o;
+            DateTime bdate = new DateTime(year, month, day);
+
+
+
+
+            <div style="background-color:blue; border: 2px solid white; padding:2%; color:snow;">
+                <h1>Hello @name </h1>
+                <h1>Your Age is : @ToAgeString(bdate); </h1>
+
+            </div>
+        }
+    }
+</body>
+</html>
